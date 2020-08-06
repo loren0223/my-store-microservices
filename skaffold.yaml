@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2beta3
+kind: Config
+metadata:
+  name: mystore
+deploy:
+  kubectl:
+    manifests:
+      - infra/k8s/*
+      - infra/k8s-dev/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: agreeloren106001/mystore-auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
